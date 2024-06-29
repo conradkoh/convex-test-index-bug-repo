@@ -34,3 +34,10 @@ export const list = query({
     return users;
   },
 });
+
+export const reset = mutation({
+  handler: async (ctx) => {
+    const users = await ctx.db.query('user').collect();
+    await Promise.all(users.map((user) => ctx.db.delete(user._id)));
+  },
+});
