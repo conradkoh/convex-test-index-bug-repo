@@ -7,7 +7,15 @@ export const create = mutation({
   },
   handler: async (ctx, args) => {
     const { name, age } = args;
-    return ctx.db.insert('user', { name, age, timestamp: Date.now() });
+    let add_info = undefined;
+    if (age !== undefined) {
+      add_info = { age };
+    }
+    return ctx.db.insert('user', {
+      name,
+      add_info,
+      timestamp: Date.now(),
+    });
   },
 });
 
@@ -19,7 +27,9 @@ export const list = query({
     const { age } = args;
     const users = await ctx.db
       .query('user')
-      .withIndex('by_age_timestamp', (f) => f.eq('age', age).gt('timestamp', 0))
+      .withIndex('by_age_timestamp', (f) =>
+        f.eq('add_info.age', age).gt('timestamp', 0)
+      )
       .collect();
     return users;
   },

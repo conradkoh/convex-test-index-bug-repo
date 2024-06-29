@@ -5,6 +5,10 @@ export default defineSchema({
   user: defineTable({
     timestamp: v.number(),
     name: v.string(),
-    age: v.optional(v.number()),
-  }).index('by_age_timestamp', ['age', 'timestamp']),
+    add_info: v.optional(
+      v.object({
+        age: v.number(),
+      })
+    ),
+  }).index('by_age_timestamp', ['add_info.age', 'timestamp']),
 });
