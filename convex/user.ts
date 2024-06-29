@@ -13,7 +13,7 @@ export const create = mutation({
     }
     return ctx.db.insert('user', {
       name,
-      add_info,
+      type: 'without_age',
       timestamp: Date.now(),
     });
   },
